@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Estilo de Manejo de Conflictos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        .header-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress {
+            background: #eef2ff;
+            border-left: 4px solid #4f46e5;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background: #f9fafb;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            background: #f3f4f6;
+        }
+
+        .option-label.selected {
+            background: #e0e7ff;
+            border-color: #4f46e5;
+        }
+
+        .option-label input[type="radio"] {
+            margin-top: 0.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: #4f46e5;
+            cursor: pointer;
+        }
+
+        .option-text {
+            flex: 1;
+            color: #374151;
+        }
+
+        .letter {
+            font-weight: bold;
+            color: #4f46e5;
+            margin-right: 0.5rem;
+        }
+
+        .submit-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            font-weight: bold;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn.enabled {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .submit-btn.enabled:hover {
+            background: #4338ca;
+            transform: scale(1.02);
+        }
+
+        .submit-btn.disabled {
+            background: #d1d5db;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .result-container {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .check-icon {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 1rem;
+            color: #10b981;
+        }
+
+        .result-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-card {
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .result-letter {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-description {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        .distribution {
+            background: #f9fafb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .distribution-title {
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .bar-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .bar-letter {
+            width: 3rem;
+            text-align: center;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .bar-wrapper {
+            flex: 1;
+            background: #e5e7eb;
+            border-radius: 9999px;
+            height: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.75rem;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s;
+        }
+
+        .bar-label {
+            width: 8rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .bg-red { background: #dc2626; }
+        .bg-green { background: #16a34a; }
+        .bg-yellow { background: #ca8a04; }
+        .bg-gray { background: #6b7280; }
+        .bg-blue { background: #2563eb; }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            .result-title {
+                font-size: 2rem;
+            }
+            .result-letter {
+                font-size: 3rem;
+            }
+            .result-name {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Quiz Section -->
+        <div id="quiz-section">
+            <div class="header-card">
+                <h1>Test de Estilo de Manejo de Conflictos</h1>
+                <p class="subtitle">
+                    Responde las 10 preguntas según tu reacción natural. Al final descubrirás tu estilo dominante.
+                </p>
+                <div class="progress">
+                    <p><strong>Progreso:</strong> <span id="progress-text">0 de 10</span> preguntas respondidas</p>
+                </div>
+            </div>
+
+            <div id="questions-container"></div>
+
+            <div class="submit-card">
+                <button id="submit-btn" class="submit-btn disabled" disabled>
+                    Responde todas las preguntas (0/10)
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-section" class="hidden">
+            <div class="result-container">
+                <div class="result-header">
+                    <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h1 class="result-title">Tu Resultado</h1>
+                </div>
+
+                <div id="result-card" class="result-card">
+                    <div class="result-letter" id="result-letter"></div>
+                    <div class="result-name" id="result-name"></div>
+                    <div class="result-description" id="result-description"></div>
+                </div>
+
+                <div class="distribution">
+                    <h3 class="distribution-title">Distribución de tus respuestas:</h3>
+                    <div id="bars-container"></div>
+                </div>
+
+                <button id="reset-btn" class="submit-btn enabled">Reiniciar Test</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                question: "Tu equipo está en una videollamada discutiendo la estrategia para un proyecto importante. Tu propuesta es muy diferente a la del líder del equipo. ¿Qué haces?",
+                options: [
+                    { letter: "A", text: "Defiendo mi propuesta con argumentos sólidos hasta convencer al equipo de que es la mejor opción" },
+                    { letter: "B", text: "Propongo que dediquemos 15 minutos a explorar ambas ideas a profundidad y encontrar una combinación mejor" },
+                    { letter: "C", text: "Sugiero tomar elementos de ambas propuestas para crear una versión híbrida" },
+                    { letter: "D", text: "Dejo que el líder decida, total él tiene más experiencia y ya se está alargando la reunión" },
+                    { letter: "E", text: "Apoyo la propuesta del líder, seguramente tiene información que yo no tengo" }
+                ]
+            },
+            {
+                id: 2,
+                question: "Es viernes 4pm y tu jefe te asigna por Teams una tarea urgente que requiere 4 horas de trabajo. Ya tenías planes personales. ¿Qué respondes?",
+                options: [
+                    { letter: "A", text: "No puedo hacerlo hoy, tengo compromisos. Puede esperar hasta el lunes o asignárselo a alguien más" },
+                    { letter: "B", text: "Entiendo la urgencia. ¿Podemos hacer una llamada rápida para ver si hay forma de dividirla o priorizarla para que quede bien hecha?" },
+                    { letter: "C", text: "Puedo hacer las partes más críticas ahora (2h) y terminar el resto el lunes temprano" },
+                    { letter: "D", text: "Visto y espero un rato antes de responder, a ver si alguien más se ofrece o el tema pierde urgencia" },
+                    { letter: "E", text: "Dale, lo hago. Cancelo mis planes" }
+                ]
+            },
+            {
+                id: 3,
+                question: "Un compañero critica públicamente en el canal de Teams tu forma de organizar un documento compartido. El comentario es algo agresivo. ¿Cómo reaccionas?",
+                options: [
+                    { letter: "A", text: "Respondo en el canal explicando por qué mi método es más eficiente y pidiendo que antes de criticar, pregunten" },
+                    { letter: "B", text: "Le escribo privado: 'Vi tu comentario. ¿Podemos hablar 10 min para entender qué no funcionó y mejorarlo juntos?'" },
+                    { letter: "C", text: "Respondo: 'Entiendo tu punto. ¿Qué te parece si combinamos tu sugerencia con lo que ya está hecho?'" },
+                    { letter: "D", text: "No respondo nada. Dejo que el tema se diluya solo" },
+                    { letter: "E", text: "Respondo: 'Tienes razón, lo reorganizo como sugieres'" }
+                ]
+            },
+            {
+                id: 4,
+                question: "Te invitan a una reunión recurrente semanal a las 8am, pero tú trabajas mejor en las tardes y normalmente empiezas a las 9:30am. ¿Qué haces?",
+                options: [
+                    { letter: "A", text: "Escribo que ese horario no funciona para mí y propongo 2 alternativas en horarios que me acomoden" },
+                    { letter: "B", text: "Pregunto quiénes más tienen problemas con ese horario y sugiero hacer una encuesta para encontrar el mejor momento para todos" },
+                    { letter: "C", text: "Propongo asistir cada 15 días a las 8am y las otras semanas alguien me pone al día" },
+                    { letter: "D", text: "Acepto la invitación pero 'casualmente' llego tarde o falto seguido" },
+                    { letter: "E", text: "Acepto y me conecto a las 8am aunque me cueste" }
+                ]
+            },
+            {
+                id: 5,
+                question: "El cliente quiere un diseño que tú consideras poco efectivo para sus objetivos. Tienes una propuesta mejor pero diferente a lo que pidió. ¿Qué haces?",
+                options: [
+                    { letter: "A", text: "Le explico directamente por qué su idea no funcionará y presento mi alternativa como la opción correcta" },
+                    { letter: "B", text: "Le digo: 'Entiendo tu visión. ¿Podemos explorar juntos por qué buscas ese estilo y mostrarte otra opción que cumple mejor el objetivo?'" },
+                    { letter: "C", text: "Hago una versión que mezcla elementos de lo que pidió con mejoras de mi propuesta" },
+                    { letter: "D", text: "Hago exactamente lo que pidió sin comentar nada. No es mi problema si no funciona" },
+                    { letter: "E", text: "Hago lo que el cliente pidió, al fin y al cabo él es quien paga" }
+                ]
+            },
+            {
+                id: 6,
+                question: "Llevas 2 semanas trabajando en un proyecto y a 2 días de la entrega, en la daily meeting proponen cambiar el enfoque completo. ¿Cuál es tu reacción?",
+                options: [
+                    { letter: "A", text: "No estoy de acuerdo. Ya invertimos mucho tiempo y cambiar ahora compromete la calidad. Sigamos con el plan original" },
+                    { letter: "B", text: "Entiendo la inquietud. ¿Podemos tomarnos 30 min para evaluar pros/contras y decidir juntos si vale la pena el cambio?" },
+                    { letter: "C", text: "¿Qué tal si implementamos solo los cambios más importantes y el resto lo dejamos para la fase 2?" },
+                    { letter: "D", text: "No digo nada en la reunión. Ya veremos qué pasa" },
+                    { letter: "E", text: "Ok, si el equipo cree que es mejor, hagamos el cambio" }
+                ]
+            },
+            {
+                id: 7,
+                question: "En la retrospectiva mensual, tu líder señala frente al equipo que tu comunicación ha sido poco clara últimamente. ¿Cómo respondes?",
+                options: [
+                    { letter: "A", text: "No estoy de acuerdo. He enviado todos los updates en tiempo. Dame ejemplos concretos porque creo que hay un malentendido" },
+                    { letter: "B", text: "Me gustaría entender mejor qué situaciones específicas no fueron claras para mejorar. ¿Podemos agendar 15 min para revisarlo?" },
+                    { letter: "C", text: "Tienes razón en parte. Puedo mejorar los updates escritos si el equipo me dice qué formato prefiere" },
+                    { letter: "D", text: "Digo 'Ok, entendido' pero internamente pienso que es exagerado. No hago mucho al respecto" },
+                    { letter: "E", text: "Perdón, tienes razón. Voy a ser más detallado en mis comunicaciones" }
+                ]
+            },
+            {
+                id: 8,
+                question: "Hay que distribuir las tareas de un proyecto nuevo. Hay una tarea compleja que te interesa mucho, pero otro compañero también la quiere. ¿Qué haces?",
+                options: [
+                    { letter: "A", text: "Argumento por qué yo soy la mejor opción para esa tarea basándome en mi experiencia y habilidades" },
+                    { letter: "B", text: "Propongo: '¿Y si trabajamos juntos en esa tarea? Podemos complementarnos y ambos aprendemos'" },
+                    { letter: "C", text: "Sugiero: 'Yo tomo esta tarea y tú esa otra que también es clave. Así ambos tenemos desafíos interesantes'" },
+                    { letter: "D", text: "Dejo que el líder o el otro compañero decidan. Evito el conflicto" },
+                    { letter: "E", text: "Le cedo la tarea. Ya habrá otras oportunidades" }
+                ]
+            },
+            {
+                id: 9,
+                question: "Estás en una videollamada que ya lleva 45 minutos (estaba agendada para 30) y siguen discutiendo en círculos sin llegar a acuerdos. ¿Qué haces?",
+                options: [
+                    { letter: "A", text: "Interrumpo: 'Llevamos mucho tiempo en esto. Propongo que decidamos X ahora y seguimos avanzando'" },
+                    { letter: "B", text: "Intervengo: 'Noto que estamos dando vueltas. ¿Qué les parece si resumimos los puntos clave y dedicamos 10 min a decidir juntos?'" },
+                    { letter: "C", text: "Sugiero: '¿Qué tal si cerramos con una decisión intermedia hoy y revisamos los detalles pendientes por Teams?'" },
+                    { letter: "D", text: "Apago la cámara y hago otras cosas mientras 'escucho'. Dejo que otros resuelvan" },
+                    { letter: "E", text: "Me quedo callado y sigo la reunión aunque esté aburrido. No quiero ser el que apura" }
+                ]
+            },
+            {
+                id: 10,
+                question: "Tu jefe quiere que priorices Proyecto A, pero tú crees que Proyecto B es más urgente según los plazos. ¿Qué haces?",
+                options: [
+                    { letter: "A", text: "Le explico claramente por qué Proyecto B debe ir primero, con datos y fechas concretas" },
+                    { letter: "B", text: "Le pregunto: '¿Podemos revisar juntos las fechas y prioridades de ambos proyectos para alinear expectativas?'" },
+                    { letter: "C", text: "Propongo avanzar con ambos en paralelo, dedicando más horas a uno que al otro" },
+                    { letter: "D", text: "Hago Proyecto A como me pidió, aunque crea que está mal priorizado. Es su decisión" },
+                    { letter: "E", text: "Acepto su criterio. Él tiene más visión del panorama completo" }
+                ]
+            }
+        ];
+
+        const styles = {
+            A: { name: "COMPETIR", color: "bg-red", description: "Alta Asertividad + Baja Cooperación" },
+            B: { name: "COLABORAR", color: "bg-green", description: "Alta Asertividad + Alta Cooperación" },
+            C: { name: "COMPROMETERSE", color: "bg-yellow", description: "Asertividad Media + Cooperación Media" },
+            D: { name: "EVADIR", color: "bg-gray", description: "Baja Asertividad + Baja Cooperación" },
+            E: { name: "CEDER", color: "bg-blue", description: "Baja Asertividad + Alta Cooperación" }
+        };
+
+        let answers = {};
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = questions.map(q => `
+                <div class="question-card">
+                    <h3 class="question-title">${q.id}. ${q.question}</h3>
+                    <div class="options">
+                        ${q.options.map(opt => `
+                            <label class="option-label" data-question="${q.id}" data-letter="${opt.letter}">
+                                <input type="radio" name="question-${q.id}" value="${opt.letter}">
+                                <div class="option-text">
+                                    <span class="letter">${opt.letter})</span>
+                                    <span>${opt.text}</span>
+                                </div>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            // Add event listeners
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(e) {
+            const questionId = e.target.name.split('-')[1];
+            const letter = e.target.value;
+            answers[questionId] = letter;
+
+            // Update visual selection
+            document.querySelectorAll(`label[data-question="${questionId}"]`).forEach(label => {
+                label.classList.remove('selected');
+            });
+            e.target.closest('label').classList.add('selected');
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const count = Object.keys(answers).length;
+            document.getElementById('progress-text').textContent = `${count} de 10`;
+            
+            const submitBtn = document.getElementById('submit-btn');
+            if (count === 10) {
+                submitBtn.classList.remove('disabled');
+                submitBtn.classList.add('enabled');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✓ Ver Mi Resultado';
+            } else {
+                submitBtn.classList.remove('enabled');
+                submitBtn.classList.add('disabled');
+                submitBtn.disabled = true;
+                submitBtn.textContent = `Responde todas las preguntas (${count}/10)`;
+            }
+        }
+
+        function calculateResult() {
+            const counts = { A: 0, B: 0, C: 0, D: 0, E: 0 };
+            Object.values(answers).forEach(letter => {
+                counts[letter]++;
+            });
+
+            const maxCount = Math.max(...Object.values(counts));
+            const dominantLetter = Object.keys(counts).find(letter => counts[letter] === maxCount);
+
+            showResult(dominantLetter, counts);
+        }
+
+        function showResult(letter, counts) {
+            const style = styles[letter];
+            
+            document.getElementById('result-letter').textContent = letter;
+            document.getElementById('result-name').textContent = style.name;
+            document.getElementById('result-description').textContent = style.description;
+            
+            const resultCard = document.getElementById('result-card');
+            resultCard.className = `result-card ${style.color}`;
+
+            // Create bars
+            const barsContainer = document.getElementById('bars-container');
+            barsContainer.innerHTML = Object.entries(counts).map(([letter, count]) => `
+                <div class="bar-container">
+                    <div class="bar-letter">${letter}:</div>
+                    <div class="bar-wrapper">
+                        <div class="bar-fill ${styles[letter].color}" style="width: ${(count / 10) * 100}%">
+                            ${count > 0 ? count : ''}
+                        </div>
+                    </div>
+                    <div class="bar-label">${styles[letter].name}</div>
+                </div>
+            `).join('');
+
+            // Show result section
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            answers = {};
+            document.getElementById('quiz-section').classList.remove('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.querySelectorAll('.option-label').forEach(label => {
+                label.classList.remove('selected');
+            });
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuestions();
+            document.getElementById('submit-btn').addEventListener('click', calculateResult);
+            document.getElementById('reset-btn').addEventListener('click', resetQuiz);
+        });
+    </script>
+</body>
+</html>
